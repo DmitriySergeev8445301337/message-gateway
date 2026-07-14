@@ -1,0 +1,761 @@
+{
+    "version": 1,
+    "description": "Public smoke tests for red/message gateway. Generated from red/tester/generator.py with fixed seeds and expected answers from red/tester/oracle.py.",
+    "cases": [
+        {
+            "name": "public_no_ops",
+            "seed": 20260630,
+            "adapters": [
+                {
+                    "from": "s0",
+                    "to": "s2",
+                    "cost": 924,
+                    "operations": []
+                },
+                {
+                    "from": "s2",
+                    "to": "s3",
+                    "cost": 61,
+                    "operations": []
+                },
+                {
+                    "from": "s1",
+                    "to": "s3",
+                    "cost": 362,
+                    "operations": []
+                },
+                {
+                    "from": "s0",
+                    "to": "s3",
+                    "cost": 358,
+                    "operations": []
+                },
+                {
+                    "from": "s0",
+                    "to": "s1",
+                    "cost": 244,
+                    "operations": []
+                }
+            ],
+            "routes": [
+                {
+                    "name": "q0",
+                    "request": {
+                        "from": "s0",
+                        "to": "s1",
+                        "message": {
+                            "f1": true,
+                            "f0": false
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s1"
+                        ],
+                        "message": {
+                            "f1": true,
+                            "f0": false
+                        },
+                        "lost_fields": [],
+                        "cost": 244
+                    }
+                },
+                {
+                    "name": "q1",
+                    "request": {
+                        "from": "s2",
+                        "to": "s3",
+                        "message": {
+                            "f0": "legacy"
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s2",
+                            "s3"
+                        ],
+                        "message": {
+                            "f0": "legacy"
+                        },
+                        "lost_fields": [],
+                        "cost": 61
+                    }
+                },
+                {
+                    "name": "q2",
+                    "request": {
+                        "from": "s3",
+                        "to": "s2",
+                        "message": {
+                            "f2": false
+                        }
+                    },
+                    "expected": {
+                        "status": "incompatible",
+                        "reason_code": "NO_APPLICABLE_PATH"
+                    }
+                },
+                {
+                    "name": "q4",
+                    "request": {
+                        "from": "s1",
+                        "to": "s1",
+                        "message": {
+                            "f1": "legacy",
+                            "f2": true
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s1"
+                        ],
+                        "message": {
+                            "f1": "legacy",
+                            "f2": true
+                        },
+                        "lost_fields": [],
+                        "cost": 0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "public_ops",
+            "seed": 1090,
+            "adapters": [
+                {
+                    "from": "s1",
+                    "to": "s4",
+                    "cost": 716,
+                    "operations": []
+                },
+                {
+                    "from": "s2",
+                    "to": "s4",
+                    "cost": 821,
+                    "operations": [
+                        {
+                            "op": "map",
+                            "field": "f0",
+                            "values": [
+                                {
+                                    "from": 1,
+                                    "to": 2
+                                },
+                                {
+                                    "from": "high",
+                                    "to": "high"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "rename",
+                            "from": "f2",
+                            "to": "f3"
+                        },
+                        {
+                            "op": "map",
+                            "field": "f3",
+                            "values": [
+                                {
+                                    "from": false,
+                                    "to": 2
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "from": "s0",
+                    "to": "s4",
+                    "cost": 311,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f1"
+                        },
+                        {
+                            "op": "map",
+                            "field": "f2",
+                            "values": [
+                                {
+                                    "from": false,
+                                    "to": false
+                                },
+                                {
+                                    "from": "high",
+                                    "to": null
+                                },
+                                {
+                                    "from": null,
+                                    "to": false
+                                },
+                                {
+                                    "from": 2,
+                                    "to": null
+                                },
+                                {
+                                    "from": 1,
+                                    "to": false
+                                }
+                            ]
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f3"
+                        }
+                    ]
+                },
+                {
+                    "from": "s1",
+                    "to": "s3",
+                    "cost": 582,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f0"
+                        },
+                        {
+                            "op": "rename",
+                            "from": "f2",
+                            "to": "f0"
+                        },
+                        {
+                            "op": "map",
+                            "field": "f3",
+                            "values": [
+                                {
+                                    "from": 2,
+                                    "to": 1
+                                },
+                                {
+                                    "from": "high",
+                                    "to": 1
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "from": "s0",
+                    "to": "s3",
+                    "cost": 30,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f0"
+                        },
+                        {
+                            "op": "default",
+                            "field": "f0",
+                            "value": null
+                        },
+                        {
+                            "op": "map",
+                            "field": "f0",
+                            "values": [
+                                {
+                                    "from": null,
+                                    "to": "high"
+                                },
+                                {
+                                    "from": "high",
+                                    "to": null
+                                },
+                                {
+                                    "from": 1,
+                                    "to": "high"
+                                },
+                                {
+                                    "from": false,
+                                    "to": false
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "from": "s1",
+                    "to": "s2",
+                    "cost": 236,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f2"
+                        },
+                        {
+                            "op": "default",
+                            "field": "f0",
+                            "value": false
+                        }
+                    ]
+                },
+                {
+                    "from": "s0",
+                    "to": "s1",
+                    "cost": 733,
+                    "operations": [
+                        {
+                            "op": "default",
+                            "field": "f2",
+                            "value": 1
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f2"
+                        },
+                        {
+                            "op": "default",
+                            "field": "f1",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "from": "s2",
+                    "to": "s3",
+                    "cost": 961,
+                    "operations": [
+                        {
+                            "op": "default",
+                            "field": "f2",
+                            "value": 1
+                        },
+                        {
+                            "op": "default",
+                            "field": "f0",
+                            "value": null
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f1"
+                        }
+                    ]
+                }
+            ],
+            "routes": [
+                {
+                    "name": "q14",
+                    "request": {
+                        "from": "s0",
+                        "to": "s4",
+                        "message": {}
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s1",
+                            "s4"
+                        ],
+                        "message": {
+                            "f1": 1
+                        },
+                        "lost_fields": [
+                            "f2"
+                        ],
+                        "cost": 1449
+                    }
+                },
+                {
+                    "name": "q4",
+                    "request": {
+                        "from": "s0",
+                        "to": "s1",
+                        "message": {
+                            "f2": 2,
+                            "f3": 1,
+                            "f1": 2
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s1"
+                        ],
+                        "message": {
+                            "f3": 1,
+                            "f1": 2
+                        },
+                        "lost_fields": [
+                            "f2"
+                        ],
+                        "cost": 733
+                    }
+                },
+                {
+                    "name": "q19",
+                    "request": {
+                        "from": "s0",
+                        "to": "s1",
+                        "message": {
+                            "f1": 1,
+                            "f2": null,
+                            "f0": null
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s1"
+                        ],
+                        "message": {
+                            "f1": 1,
+                            "f0": null
+                        },
+                        "lost_fields": [
+                            "f2"
+                        ],
+                        "cost": 733
+                    }
+                },
+                {
+                    "name": "q1",
+                    "request": {
+                        "from": "s1",
+                        "to": "s0",
+                        "message": {}
+                    },
+                    "expected": {
+                        "status": "incompatible",
+                        "reason_code": "NO_APPLICABLE_PATH"
+                    }
+                },
+                {
+                    "name": "q7",
+                    "request": {
+                        "from": "s4",
+                        "to": "s4",
+                        "message": {
+                            "f0": false,
+                            "f3": "high",
+                            "f1": "high"
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s4"
+                        ],
+                        "message": {
+                            "f0": false,
+                            "f3": "high",
+                            "f1": "high"
+                        },
+                        "lost_fields": [],
+                        "cost": 0
+                    }
+                }
+            ]
+        },
+        {
+            "name": "public_cyclic",
+            "seed": 1015,
+            "adapters": [
+                {
+                    "from": "s0",
+                    "to": "s3",
+                    "cost": 236,
+                    "operations": [
+                        {
+                            "op": "rename",
+                            "from": "f0",
+                            "to": "f1"
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f2"
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f2"
+                        }
+                    ]
+                },
+                {
+                    "from": "s4",
+                    "to": "s0",
+                    "cost": 350,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f1"
+                        }
+                    ]
+                },
+                {
+                    "from": "s0",
+                    "to": "s4",
+                    "cost": 110,
+                    "operations": []
+                },
+                {
+                    "from": "s1",
+                    "to": "s0",
+                    "cost": 185,
+                    "operations": []
+                },
+                {
+                    "from": "s3",
+                    "to": "s0",
+                    "cost": 401,
+                    "operations": [
+                        {
+                            "op": "rename",
+                            "from": "f0",
+                            "to": "f3"
+                        },
+                        {
+                            "op": "default",
+                            "field": "f1",
+                            "value": 1
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f1"
+                        }
+                    ]
+                },
+                {
+                    "from": "s3",
+                    "to": "s2",
+                    "cost": 65,
+                    "operations": [
+                        {
+                            "op": "default",
+                            "field": "f3",
+                            "value": false
+                        },
+                        {
+                            "op": "drop",
+                            "field": "f2"
+                        },
+                        {
+                            "op": "default",
+                            "field": "f3",
+                            "value": true
+                        }
+                    ]
+                },
+                {
+                    "from": "s2",
+                    "to": "s3",
+                    "cost": 636,
+                    "operations": []
+                },
+                {
+                    "from": "s1",
+                    "to": "s2",
+                    "cost": 688,
+                    "operations": [
+                        {
+                            "op": "default",
+                            "field": "f0",
+                            "value": 1
+                        },
+                        {
+                            "op": "map",
+                            "field": "f0",
+                            "values": [
+                                {
+                                    "from": "low",
+                                    "to": "low"
+                                },
+                                {
+                                    "from": false,
+                                    "to": "low"
+                                },
+                                {
+                                    "from": true,
+                                    "to": "low"
+                                },
+                                {
+                                    "from": 1,
+                                    "to": "high"
+                                },
+                                {
+                                    "from": "high",
+                                    "to": "high"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "map",
+                            "field": "f2",
+                            "values": [
+                                {
+                                    "from": "low",
+                                    "to": "low"
+                                },
+                                {
+                                    "from": 1,
+                                    "to": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "from": "s4",
+                    "to": "s3",
+                    "cost": 831,
+                    "operations": [
+                        {
+                            "op": "drop",
+                            "field": "f0"
+                        },
+                        {
+                            "op": "map",
+                            "field": "f3",
+                            "values": [
+                                {
+                                    "from": 1,
+                                    "to": "high"
+                                },
+                                {
+                                    "from": "high",
+                                    "to": true
+                                }
+                            ]
+                        },
+                        {
+                            "op": "rename",
+                            "from": "f1",
+                            "to": "f2"
+                        }
+                    ]
+                }
+            ],
+            "routes": [
+                {
+                    "name": "q13",
+                    "request": {
+                        "from": "s0",
+                        "to": "s3",
+                        "message": {
+                            "f0": true,
+                            "f1": 1
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s4",
+                            "s0",
+                            "s3"
+                        ],
+                        "message": {
+                            "f1": true
+                        },
+                        "lost_fields": [
+                            "f1"
+                        ],
+                        "cost": 696
+                    }
+                },
+                {
+                    "name": "q15",
+                    "request": {
+                        "from": "s0",
+                        "to": "s2",
+                        "message": {
+                            "f3": true,
+                            "f0": 1,
+                            "f1": false
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s0",
+                            "s4",
+                            "s0",
+                            "s3",
+                            "s2"
+                        ],
+                        "message": {
+                            "f3": true,
+                            "f1": 1
+                        },
+                        "lost_fields": [
+                            "f1"
+                        ],
+                        "cost": 761
+                    }
+                },
+                {
+                    "name": "q8",
+                    "request": {
+                        "from": "s2",
+                        "to": "s4",
+                        "message": {
+                            "f0": 1
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s2",
+                            "s3",
+                            "s0",
+                            "s4"
+                        ],
+                        "message": {
+                            "f3": 1
+                        },
+                        "lost_fields": [
+                            "f1"
+                        ],
+                        "cost": 1147
+                    }
+                },
+                {
+                    "name": "q6",
+                    "request": {
+                        "from": "s1",
+                        "to": "s2",
+                        "message": {
+                            "f1": false,
+                            "f2": "high",
+                            "f3": true
+                        }
+                    },
+                    "expected": {
+                        "status": "incompatible",
+                        "reason_code": "NO_APPLICABLE_PATH"
+                    }
+                },
+                {
+                    "name": "q0",
+                    "request": {
+                        "from": "s3",
+                        "to": "s3",
+                        "message": {
+                            "f2": true,
+                            "f1": "high"
+                        }
+                    },
+                    "expected": {
+                        "status": "routed",
+                        "path": [
+                            "s3"
+                        ],
+                        "message": {
+                            "f2": true,
+                            "f1": "high"
+                        },
+                        "lost_fields": [],
+                        "cost": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

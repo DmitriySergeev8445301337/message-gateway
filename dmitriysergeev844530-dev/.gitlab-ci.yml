@@ -1,0 +1,44 @@
+stages:
+  - public_test
+  - hidden_test
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+    - when: never
+
+public_tests:
+  image: docker:27.5.1
+  stage: public_test
+  services:
+    - name: docker:27.5.1-dind
+      command: ["--registry-mirror=https://dockerhub.timeweb.cloud"]
+  variables:
+    DOCKER_HOST: "tcp://docker:2376"
+    DOCKER_TLS_VERIFY: "1"
+    DOCKER_CERT_PATH: "/certs/client"
+  before_script:
+    - for try in 1 2 3 4 5 6 7 8 9 10; do sleep 1; test -f /certs/client/ca.pem && break; done
+    - for try in 1 2 3 4 5 6 7 8 9 10; do sleep 1; docker info && break; done
+    - apk add --no-cache python3 curl
+  script:
+    - docker build -t red-solution:$CI_COMMIT_SHA solution
+    - docker run -d --rm --name red-solution -p 8080:8080 red-solution:$CI_COMMIT_SHA
+    - for try in 1 2 3 4 5 6 7 8 9 10; do sleep 1; curl -fsS http://docker:8080/health && break; done
+    - python3 tester/tester.py --url http://docker:8080
+  after_script:
+    - docker rm -f red-solution || true
+  artifacts:
+    when: always
+    expire_in: 1 day
+    paths:
+      - solution/
+
+hidden_tests:
+  image: python:3.12-slim
+  stage: hidden_test
+  when: always
+  needs:
+    - public_tests
+  script:
+    - python3 hidden_tests_runner.py
